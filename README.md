@@ -15,6 +15,13 @@ Before you begin, ensure you have met the following requirements:
 * You have installed `Docker` and `Docker Compose`.
 * You have a suitable text editor to edit .env and other files.
 
+## Setting Up Feedback Form
+
+To install Feedback Form, follow these steps:
+
+1. Clone the repository.
+2. Set up your environment variables in the .env file:
+
 ### Environment Configuration
 
 Create a `.env` file in the project root and set the following values:
