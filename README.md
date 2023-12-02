@@ -12,7 +12,7 @@ The Feedback Form project serves as an online suggestion and review platform, al
 
 Before you begin, ensure you have met the following requirements:
 
-* You have installed Docker and Docker Compose.
+* You have installed `Docker` and `Docker Compose`.
 * You have a suitable text editor to edit .env and other files.
 
 ### Environment Configuration
