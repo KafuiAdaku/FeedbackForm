@@ -1,0 +1,12 @@
+DEBUG = False
+
+
+.env
+MAIL_USERNAME='youremail@mail.com'
+
+""" you need to generate a google app password for your provided email above"""
+MAIL_PASSWORD='google app password'
+MAIL_DEFAULT_SENDER='youremail@mail.com'
+
+""" this would receive the mail from your flask app"""
+ADMIN_EMAIL='anydummyemail@mail.com'
