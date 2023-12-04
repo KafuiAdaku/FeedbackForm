@@ -1,0 +1,177 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+}
+
+#nav-bar
+{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.navbar 
+{
+    background-image: linear-gradient(to right, #454647, #3f4348);
+    padding: 15px !important;
+}
+
+.navbar-brand
+{
+    height: 40px;
+    padding-left: 30px;
+    color: #ebebeb !important;
+    font-weight: 700;
+}
+
+.navbar-nav
+{
+    padding: 0 10px;
+}
+
+.navbar-nav li a
+{
+    color:#ebebeb !important;
+    font-weight: 600 ;
+    float: right;
+    text-align: left;
+}
+
+.fa-bars 
+{
+    color: #ebebeb;
+    font-size: 30px;
+}
+
+.navbar-toggler
+{
+    outline: none !important;
+}
+
+.feedback-color
+{
+    color: #d9643a !important;
+}
+
+/*------------------------------banner section-------------------------*/
+#banner
+{
+    background-image: linear-gradient(to right, #61676f, #e9ecf1);
+    color: rgb(9, 7, 7);
+    padding-top: 15%;
+    height: 100vh;
+}
+
+#form-banner
+{
+    padding-top: 15%;
+    height: 100vh;
+}
+
+.banner-title
+{
+    font-size: 50px;
+    font-weight: 600;
+    margin-top: 100px;
+}
+
+.btn {
+   background-color: #d9643a !important;
+}
+
+
+/*------------------------------- service section ---------------------------*/
+#service
+{
+    padding: 80px 0;
+}
+
+.service-img
+{
+     width: 100px;
+     margin-top: 20px;
+}
+
+.services
+{
+    padding: 20px;
+}
+
+.services h4
+{
+    padding: 5px;
+    margin-top: 25px;
+    text-transform: uppercase;
+}
+
+.title::before
+{
+    content: '';
+    background: #454647;
+    height: 5px;
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    transform: translateY(63px)
+}
+
+.title::after
+{
+    content: '';
+    background: #454647;
+    height: 10px;
+    width: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 40px;
+    display: block;
+    transform: translateY(8px)
+}
+
+#service .btn-primary
+{
+    box-shadow: none;
+    padding: 8px 25px;
+    border: none;
+    border-radius: 20px;
+}
+
+#footer
+{
+    background-image: linear-gradient(to right, #454647, #2e3033);
+}
+
+.footer-icons
+{
+    color: #2e3033;
+    margin-right: 10px;
+    padding: 20px
+}
+
+.footer a
+{
+    color: #454647;
+    margin-top: 10px;
+    padding: 20px;
+    font-size: 400;
+}
+
+
+#feedback-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* h1 {
+    margin-bottom: 2rem;
+} */
+
+.font-weight-600 {
+    font-weight: 600;
+}
