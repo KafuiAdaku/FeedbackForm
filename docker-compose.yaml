@@ -1,0 +1,79 @@
+version: '2'
+
+services:
+  redis:
+    image: 'redis'
+    command: redis-server --requirepass ${REDIS_PASSWORD:-devpassword}
+    volumes:
+      - 'redis:/var/lib/redis/data'
+    ports:
+      - '6379:6379'
+    networks:
+      - feedback_net
+
+  website:
+    build: .
+    deploy:
+      replicas: 1
+    env_file:
+      - .env
+    command: >
+      gunicorn -b 0.0.0.0:8000
+      --access-logfile -
+      --reload
+      "feedback_form.app:create_app()"
+    volumes:
+      - '.:/feedback_form'
+      - ./mysqlData:/mysqlData
+    ports:
+      - '8000:8000'
+    depends_on:
+      - mysql
+    restart: always
+    networks:
+      - feedback_net
+
+  celery:
+    build: .
+    command: celery -A feedback_form.tasks worker --loglevel=info
+    env_file:
+      - .env
+    volumes:
+      - '.:/feedback_form'
+    depends_on:
+      - website
+      - redis
+    restart: always
+    networks:
+      - feedback_net
+
+  mysql:
+    image: mysql
+    env_file:
+      - .env
+    ports:
+      - '3306:3306'
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: '$(MYSQL_ROOT_PASSWORD)'
+    networks:
+      - feedback_net
+    volumes:
+      - ./mysqlData:/var/lib/mysql
+    
+    # command: [ "mysqld",
+    #   "--character-set-server=utf8mb4",
+    #   "--collation-server=utfmb4_unicode_ci",
+    #   "--bind-address=0.0.0.0",
+    #   "--require_secure_transport=ON",
+    #   "--ssl-ca=/var/lib/mysql/ca.pem",
+    #   "--ssl-cert=/var/lib/mysql/server-cert.pem",
+    #   "--ssl-key=/var/lib/mysql/server-key.pem",
+    #   "--default_authentication_plugin=mysql_native_password"]
+
+networks:
+  feedback_net:
+    driver: bridge
+
+volumes:
+  redis:
