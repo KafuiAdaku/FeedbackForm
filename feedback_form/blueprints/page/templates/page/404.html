@@ -1,0 +1,13 @@
+{% extends 'base.html'%}
+
+
+{% block title%}{% endblock %}
+{% block body%}
+      <!---------------------Banner---------------->
+      <section id="banner">
+        <div class="container">
+            <h1>PAGE NOT FOUND</h1>
+            <img src="{{ url_for('static', filename='images/404.svg') }}" alt="" class="img-fluid">
+         </div>
+     </section>
+{% endblock %}

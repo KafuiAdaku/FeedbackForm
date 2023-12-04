@@ -1,0 +1,50 @@
+{% extends 'base.html'%}
+
+
+{% block title%}{% endblock %}
+{% block body%}
+    <!---------------------Banner---------------->
+    <section id="banner">
+        <div class="container">
+         <div class="row">
+             <div class="col-md-6">
+               <h3 class="banner-title">YOUR VOICE, OUR COMMITMENT</h3>
+               <p>Welcome to our feedback portal! Your opinion matters to us. We strive to provide you with
+                 the best shopping experience and your feedback helps us achieve that.
+                 Did one of our employees go the extra mile for you? Or do you have a suggestion on how we can 
+                 serve you better? This is the place to share it
+               </p>
+               <a href="{{url_for( 'feedback.index' )}}" class="btn btn-primary btn-lg m-3 p-3" role="button">GIVE US A FEEDBACK</a>
+             </div>
+             <div class="col-md-6 text-center">
+                <img src="{{ url_for('static', filename='images/personal.svg') }}" alt="" class="img-fluid"> 
+             </div>
+         </div>
+        </div> 
+     </section>
+ 
+ <!----------------------------service section-------------------------->
+ <section id="service">
+     <div class="container text-center">
+         <h1 class="title">FEEDBACKS FROM CUSTOMERS</h1>
+         <div class="row text-center">
+            <div class="col-md-4 services">
+             <img src="{{ url_for('static', filename='images/feedback3.jpg') }}" alt="" class="service-img">
+             <h4>Testimony 1</h4>
+             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum explicabo, deleniti ipsa eos veritatis libero!</p>
+            </div>
+            <div class="col-md-4 services">
+             <img src="{{ url_for('static', filename='images/feedback1.jpg') }}" alt="" class="service-img">
+             <h4>Testimony 2</h4>
+             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum explicabo, deleniti ipsa eos veritatis libero!</p>
+            </div> 
+            <div class="col-md-4 services">
+             <img src="{{ url_for('static', filename='images/feedback2.jpg') }}" alt="" class="service-img">
+             <h4>Testimony 3</h4>
+             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum explicabo, deleniti ipsa eos veritatis libero!</p>
+            </div>  
+         </div>
+         <a href="{{url_for( 'feedback.index' )}}" class="btn btn-primary btn-lg m-3 p-3" role="button">Review Us</a>
+     </div>  
+ </section>
+{% endblock %}

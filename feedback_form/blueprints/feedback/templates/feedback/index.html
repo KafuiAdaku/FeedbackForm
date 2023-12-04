@@ -1,0 +1,38 @@
+{% extends 'base.html'%}
+
+
+{% block title%}{% endblock %}
+{% block body%}
+    <section id="feedback-form" class="py-5">
+        <div class="container text-center mb-4">
+            <h1 class="display-4">Feedback Form</h1>
+        </div>
+        
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-4 col-md-6">
+                    <form method="POST" action="{{ url_for('feedback.index') }}" class="g-3">
+                {{ form.hidden_tag() }}
+
+                <div class="form-group mb-3">
+                    {{ form.employee_feedback.label(class='form-label font-weight-600') }}
+                    {{ form.employee_feedback(class='form-control') }}
+                </div>
+
+                <div class="form-group mb-3">
+                    {{ form.service_feedback.label(class='form-label font-weight-600') }}
+                    {{ form.service_feedback(class='form-control') }}
+                </div>
+
+                <div class="form-group mb-3">
+                    {{ form.additional_comments.label(class='form-label font-weight-600') }}
+                    {{ form.additional_comments(class='form-control') }}
+                </div>
+
+                {{ form.submit_button(class='btn btn-primary btn-lg ') }}
+            </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
