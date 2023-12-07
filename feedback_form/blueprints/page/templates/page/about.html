@@ -1,0 +1,27 @@
+{% extends 'base.html'%}
+
+
+{% block title%}{% endblock %}
+{% block body%}
+    <section id="about-form" class="py-5">
+        <div class="container text-center mb-4">
+            <h1 class="display-4"></h1>
+        </div>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                <h3 class="banner-title">ABOUT US</h3>
+               <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus quas optio reiciendis deleniti voluptatem facere sequi, quia, est sed dicta aliquid quidem facilis culpa iure perferendis? Dolor ad quia deserunt.
+
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus quas optio reiciendis deleniti voluptatem facere.
+               </p> 
+                </div>
+                <div class="col-md-6 text-center mt-4">
+                <img src="{{ url_for('static', filename='images/about.svg') }}" alt="" class="img-fluid"> 
+             </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

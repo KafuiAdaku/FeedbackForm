@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from celery import Celery
 
 from feedback_form.blueprints.page import page
@@ -54,6 +54,11 @@ def create_app(settings_override=None):
     app.register_blueprint(page)
     app.register_blueprint(feedback)
     extensions(app)
+
+    # Global 404 error handler
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('page/404.html'), 404
 
     return app
 

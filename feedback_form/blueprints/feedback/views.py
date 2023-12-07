@@ -7,7 +7,7 @@ from flask import (
     render_template
 )
 
-from feedback_form.blueprints.feedback.forms import FeedbackForm
+from feedback_form.blueprints.feedback.forms import FeedbackForm, ContactForm
 # from feedback_form.blueprints.feedback.email import send_feedback_email
 from feedback_form.extentions import mail, db
 from feedback_form.blueprints.feedback.models import Review, Employee
@@ -31,6 +31,7 @@ def index():
     if form.validate_on_submit():
         """ to avoid circular imports """
         from feedback_form.tasks import send_async_email
+        
         employee_id = form.employee_feedback.data
         service_feedback = form.service_feedback.data
         additional_comments = form.additional_comments.data
@@ -54,3 +55,23 @@ def index():
         flash('Your feedback has been successfully submitted!', 'success')
         return redirect(url_for('page.success_page'))
     return render_template('feedback/index.html', form=form)
+
+
+@feedback.route('/contact', methods=['GET', 'POST'])
+def contact():
+    form = ContactForm()
+
+    if form.validate_on_submit():
+        """send email on form submission"""
+        from feedback_form.tasks import send_async_email_contact
+        
+        send_async_email_contact.delay(
+            form.name.data,
+            form.email.data,
+            form.message.data
+        )
+
+        flash('Your message has been successfully sent!', 'success')
+        return redirect(url_for('page.success_page'))
+
+    return render_template('feedback/contact.html', form=form)

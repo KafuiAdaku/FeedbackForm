@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField, TextAreaField
-from wtforms.validators import DataRequired, InputRequired
+from wtforms.validators import DataRequired, InputRequired, Email
 
 
 class FeedbackForm(FlaskForm):
@@ -14,3 +14,10 @@ class FeedbackForm(FlaskForm):
 
     additional_comments = TextAreaField('Additional Comments')
     submit_button = SubmitField('Submit Feedback')
+
+
+class ContactForm(FlaskForm):
+    name = StringField('Your Name', validators=[InputRequired()])
+    email = StringField('Your Email', validators=[InputRequired(), Email()])
+    message = TextAreaField('Your Message', validators=[InputRequired()])
+    submit_button = SubmitField('Send Message')

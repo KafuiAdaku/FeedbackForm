@@ -13,7 +13,6 @@ def home():
 def success_page():
     return render_template('page/success.html')
 
-
-# @page.errorhandler(404)
-# def page_not_found(e):
-#     return render_template('page/404.html'), 404
+@page.route('/about')
+def about_us():
+    return render_template('page/about.html')

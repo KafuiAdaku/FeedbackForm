@@ -18,3 +18,13 @@ def send_async_email(emp_fb, service_fb, comments):
         msg = Message(subject, sender=sender, recipients=[admin_email], body=body)
         mail.send(msg)
 
+@celery.task
+def send_async_email_contact(name, email, message):
+    with current_app.app_context():
+        sender = current_app.config['MAIL_USERNAME']
+        admin_email = current_app.config['ADMIN_EMAIL']
+        subject = 'New Contact Form'
+
+        msg = Message(subject=subject, sender=sender, recipients=[admin_email], body=f"Name: {name}\nEmail: {email}\nMessage: {message}")
+        mail.send(msg)
+
