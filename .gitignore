@@ -1,6 +1,6 @@
 __pycache__/
 mysqlData/
 migrations/
-.env/
+.env
 venv/
 populate_employees.py
