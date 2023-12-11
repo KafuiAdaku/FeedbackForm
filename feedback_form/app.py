@@ -69,6 +69,8 @@ def extensions(app):
 
     Example:
     mail.init_app(app)
+    db.init_app(app)
+    migrate.init_app(app, db)
 
     :param app: Flask application instance
     :return: None

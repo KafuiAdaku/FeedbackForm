@@ -1,6 +1,34 @@
 # FEEDBACK FORM
 
+<div>
+  <p align="center">
+    <img src="feedback_form/static/images/feedbackform.png" width="800"> 
+  </p>
+</div>
+
 The Feedback Form project is an online platform that enables clients to provide valuable suggestions and reviews, fostering an interactive and user-driven improvement process. Built with Flask, MySQL, Celery, and Redis, all components are containerized in Docker, ensuring seamless communication between them.
+
+![OS](https://img.shields.io/badge/OS-Linux-red?style=flat&logo=linux)
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python%203.8-1f425f.svg?logo=python)](https://www.python.org/)
+[![Docker](https://img.shields.io/badge/Docker-available-green.svg?style=flat&logo=docker)](https://github.com/emalderson/ThePhish/tree/master/docker)
+[![Maintenance](https://img.shields.io/badge/Maintained-yes-green.svg)](https://github.com/KafuiAdaku/FeedbackForm)
+[![Documentation](https://img.shields.io/badge/Documentation-complete-green.svg?style=flat)](https://github.com/KafuiAdaku/FeedbackForm)
+
+## Table of Contents
+
+- [Project Overview](#project-overview)
+- [Project Setup](#project-setup)
+  - [Prerequisites](#prerequisites)
+  - [Setting Up Feedback Form](#setting-up-feedback-form)
+  - [Environment Configuration](#environment-configuration)
+- [Build and Run](#build-and-run)
+- [Testing](#testing)
+  - [Running pytest](#running-pytest)
+  - [Test Coverage](#test-coverage)
+- [Initializing Database](#initializing-database)
+- [Test in Browser](#test-in-browser)
+- [Contact](#contact)
+- [License](#license)
 
 ## Project Overview
 
@@ -79,16 +107,19 @@ docker-compose exec website env FLASK_APP=feedback_form/app.py flask db upgrade
 ```
 
 # TEST IN BROWSER
-# Test in Browser
 
 Visit [localhost:8000](http://localhost:8000) or [0.0.0.0:8000](http://0.0.0.0:8000) in your web browser to test the application.
 
 
 ## Contact
 
+## Authors
+
+- [Theophilus Ackom](https://github.com/TeamKweku)
+- [Dennis Adaku](https://github.com/KafuiAdaku)
 
 
 ## License
 
-This project uses the following license: 
+This project is licensed under the [MIT License](LICENSE). See the [LICENSE](LICENSE) file for details.
 
