@@ -1,0 +1,6 @@
+User Review of Customer Service
+
+From: {{ email }}
+Employee Feedback: {{ select_employee }}
+Service Rating: {{ service_rating }}
+Additional Comment: {{ message }}

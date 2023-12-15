@@ -1,15 +1,15 @@
 from datetime import datetime
-from feedback_form.extentions import db
+from feedback_form.extensions import db
 
 from datetime import datetime
-from feedback_form.extentions import db
+from feedback_form.extensions import db
 
 # User model
-class User(db.Model):
-    __tablename__ = 'users'
+# class User(db.Model):
+#     __tablename__ = 'users'
 
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(255))
+#     id = db.Column(db.Integer, primary_key=True)
+#     username = db.Column(db.String(255))
     # Add other user-related fields as needed
 
 # Employee model
@@ -36,4 +36,3 @@ class Review(db.Model):
 
     employee_id = db.Column(db.Integer, db.ForeignKey('employees.id'))
     employee = db.relationship('Employee', backref=db.backref('reviews', lazy='dynamic'))
-
