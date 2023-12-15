@@ -43,16 +43,11 @@ def index():
     form.employee_feedback.choices = employee_data
 
     if form.validate_on_submit():
-<<<<<<< HEAD
-        # Importing inside the function to avoid circular imports
-        from feedback_form.tasks import send_async_email
-=======
         """ to avoid circular imports """
         # from feedback_form.tasks import send_async_email
 
         username = current_user.username
         user_email = current_user.email
->>>>>>> 973601f (user login implementation)
         
         employee_id = form.employee_feedback.data
         service_feedback = form.service_feedback.data
@@ -71,11 +66,6 @@ def index():
         db.session.add(review_entry)
         db.session.commit()
 
-<<<<<<< HEAD
-        # Send asynchronous email notification
-        send_async_email.delay(selected_employee.employee_name,
-                               service_feedback, additional_comments)
-=======
         # send_async_email.delay(selected_employee.employee_name,
         #                        service_feedback, additional_comments)
         from feedback_form.blueprints.feedback.tasks import \
@@ -86,7 +76,6 @@ def index():
                 selected_employee.id,
                 service_feedback)
 
->>>>>>> 973601f (user login implementation)
 
         flash('Your feedback has been successfully submitted!', 'success')
         return redirect(url_for('page.success_page'))
