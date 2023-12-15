@@ -8,6 +8,17 @@ celery = create_celery_app()
 
 @celery.task
 def send_async_email(emp_fb, service_fb, comments):
+    """
+    Asynchronous Celery task to send an email with feedback information.
+
+    :param emp_fb: Employee feedback
+    :type emp_fb: str
+    :param service_fb: Service rating
+    :type service_fb: str
+    :param comments: Additional comments
+    :type comments: str
+    :return: None
+    """
     with current_app.app_context():
         sender = current_app.config['MAIL_USERNAME']
         subject = 'New Feedback Submission'
@@ -20,6 +31,17 @@ def send_async_email(emp_fb, service_fb, comments):
 
 @celery.task
 def send_async_email_contact(name, email, message):
+    """
+    Asynchronous Celery task to send an email with contact form information.
+
+    :param name: Sender's name
+    :type name: str
+    :param email: Sender's email address
+    :type email: str
+    :param message: Message content
+    :type message: str
+    :return: None
+    """
     with current_app.app_context():
         sender = current_app.config['MAIL_USERNAME']
         admin_email = current_app.config['ADMIN_EMAIL']
