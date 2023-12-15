@@ -1,13 +1,18 @@
 from flask import Flask, render_template
 from celery import Celery
+from itsdangerous import URLSafeTimedSerializer
 
+from feedback_form.blueprints.admin import admin
 from feedback_form.blueprints.page import page
 from feedback_form.blueprints.feedback import feedback
-from feedback_form.extentions import mail, db, migrate
+from feedback_form.blueprints.user import user
+from feedback_form.extensions import mail, db, migrate, csrf, login_manager
+from feedback_form.blueprints.user.models import User
 
 CELERY_TASK_LIST = [
-    'feedback_form.tasks',
-]
+    'feedback_form.blueprints.feedback.tasks',
+    'feedback_form.blueprints.user.tasks'
+    ]
 
 def create_celery_app(app=None):
     """
@@ -51,9 +56,12 @@ def create_app(settings_override=None):
     if settings_override:
         app.config.update(settings_override)
 
+    app.register_blueprint(admin)
     app.register_blueprint(page)
     app.register_blueprint(feedback)
+    app.register_blueprint(user)
     extensions(app)
+    authentication(app, User)
 
     # Global 404 error handler
     @app.errorhandler(404)
@@ -79,5 +87,34 @@ def extensions(app):
     mail.init_app(app)
     db.init_app(app)
     migrate.init_app(app, db)
+    csrf.init_app(app)
+    login_manager.init_app(app)
 
     return None
+
+
+def authentication(app, user_model):
+    """
+    Initialize the Flask-Login extension (mutates the app passed in).
+
+    :param app: Flask application instance
+    :param user_model: Model that contains the authentication information
+    :type user_model: SQLAlchemy model
+    :return: None
+    """
+    login_manager.login_view = "user.login"
+
+    @login_manager.user_loader
+    def load_user(uid) :
+        return user_model.query.get(uid)
+
+
+    @login_manager.request_loader
+    def load_from_request(request):
+        token = request.headers.get('Authorization')
+        if token:
+            duration = app.config['REMEMBER_COOKIE_DURATION'].total_seconds()
+            serializer = URLSafeTimedSerializer(app.secret_key)
+            data = serializer.loads(token, max_age=duration)
+            user_uid = data[0]
+            return user_model.query.get(user_uid)

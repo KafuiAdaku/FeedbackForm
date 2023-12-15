@@ -1,0 +1,14 @@
+{# Render Flask flash messages. #}
+{%- macro render() -%}
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <DIV id="flash-messages" class="row lg-margin-top">
+                {% for category, msg in messages %}
+                    <DIV class="alert alert-{{ category }}" role="alert">
+                        {{ msg }}
+                    </DIV>
+                {% endfor %}
+            </DIV>
+        {% endif %}
+    {% endwith %}
+{%- endmacro -%}

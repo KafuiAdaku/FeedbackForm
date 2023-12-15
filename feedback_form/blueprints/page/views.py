@@ -25,9 +25,4 @@ def success_page():
 
 @page.route('/about')
 def about_us():
-    """
-    Endpoint to render the about us page.
-
-    :return: Rendered template for the about us page.
-    """
     return render_template('page/about.html')

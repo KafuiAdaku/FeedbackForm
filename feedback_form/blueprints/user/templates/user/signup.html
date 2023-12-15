@@ -1,0 +1,46 @@
+{% extends 'app.html' %}                                                                                                                                                
+{% import 'macros/form.html' as f with context %}
+ 
+{% block title %}Sign up for a new account{% endblock %}
+ 
+{% block body %}
+  <section id="signup-form" class="py-5">
+    <div class="container text-center mb-4">
+      <h2>WHAT ARE YOU WAITING FOR?</h2>
+ 
+    </div>
+
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-4 well">
+          {% call f.form_tag('user.signup') %}
+            <legend class="text-center">Sign up today</legend>
+    
+            {% call f.form_group(form.email, css_class='sm-margin-bottom',
+                                autofocus='autofocus',
+                                placeholder='Email address') %}
+            {% endcall %}
+    
+            {% call f.form_group(form.password, css_class='sm-margin-bottom') %}
+            {% endcall %}
+    
+            <div class="row mt-2">
+              <div class="col-md-6">
+                <button type="submit" class="btn btn-primary btn-block">
+                  Register
+                </button>
+              </div>
+              <div class="col-md-6 text-center">
+                <!-- <div class="visible-xs visible-sm sm-margin-top"></div> -->
+                <a href="{{ url_for('user.login') }}"
+                  class="btn btn-default btn-block">
+                  Looking to sign in?
+                </a>
+              </div>                                                                                                                                                                
+          </div>
+        {% endcall %}
+      </div>
+    </div>
+    </div>
+  </section>
+{% endblock %}

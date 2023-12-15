@@ -1,0 +1,4 @@
+
+        [console_scripts]
+        feedback_form=cli.cli:cli
+    

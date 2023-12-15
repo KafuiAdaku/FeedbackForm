@@ -2,6 +2,7 @@
 Module that contains all flask config settings for the flask app
 """
 import os
+from datetime import timedelta
 
 DEBUG = True
 
@@ -12,7 +13,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 
-# Email Configuration
+# Flask-Mail
 MAIL_SERVER = 'smtp.googlemail.com'
 MAIL_PORT = 587
 MAIL_USE_TLS = True
@@ -31,3 +32,7 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
+# User.
+SEED_ADMIN_EMAIL = 'dev@local.host'
+SEED_ADMIN_PASSWORD = 'devpassword'
+REMEMBER_COOKIE_DURATION = timedelta(days=90)
