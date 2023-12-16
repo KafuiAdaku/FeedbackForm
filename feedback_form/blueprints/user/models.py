@@ -129,7 +129,7 @@ class User(UserMixin, ResourceMixin, db.Model):
         :return: SQLAlchemy filter
         """
         if not query:
-            return
+            return None
 
         search_query = f"%{query}%"
         search_chain = (User.email.ilike(search_query), User.username.ilike(search_query))
