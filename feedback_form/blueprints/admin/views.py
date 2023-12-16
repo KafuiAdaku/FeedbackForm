@@ -49,18 +49,26 @@ def users(page):
                         request.args.get("direction", "desc"))
     order_values = f"{sort_by[0]} {sort_by[1]}"
 
-    paginated_users = User.query.filter(User.search(request.args.get("q", "")))\
-            .order_by(User.role.asc(), text(order_values))\
-            .paginate(page=page, per_page=50, error_out=True)
+    search_expr = User.search(request.args.get('q', ''))
+    print(f"Search Expression: {search_expr}")
+
+    if search_expr is not None:
+        paginated_users = User.query.filter(search_expr)\
+                .order_by(User.role.asc(), text(order_values))\
+                .paginate(page=page, per_page=50, error_out=True)
+    else:
+        paginated_users = User.query\
+                .order_by(User.role.asc(), text(order_values))\
+                .paginate(page=page, per_page=50, error_out=True)
 
     return render_template("admin/user/index.html", form=search_form,
                            bulk_form=bulk_form, users=paginated_users)
 
 
-@admin.route("/user/edit/<int:id>", methods=["GET", "POST"])
+@admin.route("/users/edit/<int:id>", methods=["GET", "POST"])
 def users_edit(id):
     user = User.query.get(id)
-    form = UserForm(obj=User)
+    form = UserForm(obj=user)
 
     if form.validate_on_submit():
         if User.is_last_admin(user, request.form.get("role"),
