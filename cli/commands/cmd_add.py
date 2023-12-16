@@ -8,6 +8,7 @@ from faker import Faker
 from feedback_form.app import create_app
 from feedback_form.extensions import db
 from feedback_form.blueprints.user.models import User
+from feedback_form.blueprints.feedback.models import Employee, Review
 
 # Create an app context for the database connection.
 app = create_app()
@@ -45,6 +46,12 @@ def _bulk_insert(model, data, label):
     :return: None
     """
     with app.app_context():
+        if model == Employee:
+            Review.query.filter(Review.employee_id.in_(
+                                db.session.query(Employee.id)
+                                )).delete(synchronize_session='fetch')
+            db.session.commit()
+
         model.query.delete()
         db.session.commit()
         db.session.bulk_insert_mappings(model, data)
@@ -134,11 +141,36 @@ def users():
             params['password'] = password
 
         data.append(params)
-    for element in data:
-        if element["email"] == "dev@local.host":
-            print("Seed admin account was added")
 
     return _bulk_insert(User, data, 'users')
+
+
+@click.command()
+def employees():
+    """
+    Generate fake employees
+    """
+    random_names = []
+    data = []
+
+    click.echo("Working ...")
+
+    for _ in range(0, 10):
+        random_names.append(fake.name())
+
+    random_names = list(set(random_names))
+
+    while True:
+        if not random_names:
+            break
+
+        name = random_names.pop()
+        params = {
+                "employee_name": name
+                }
+        data.append(params)
+
+    return _bulk_insert(Employee, data, "employees")
 
 
 @click.command()
@@ -151,9 +183,11 @@ def all(ctx):
     :return: None
     """
     ctx.invoke(users)
+    ctx.invoke(employees)
 
     return None
 
 
 cli.add_command(users)
+cli.add_command(employees)
 cli.add_command(all)
