@@ -236,8 +236,12 @@ class User(UserMixin, ResourceMixin, db.Model):
         :return: SQLAlchemy commit results
         """
         self.sign_in_count += 1
+        
+        if self.current_sign_in_on is not None:
+            self.last_sign_in_on = self.current_sign_in_on.replace(tzinfo=timezone.utc)
+        else:
+            self.last_sign_in_on = None
 
-        self.last_sign_in_on = self.current_sign_in_on.replace(tzinfo=timezone.utc)
         self.last_sign_in_ip = self.current_sign_in_ip
 
         self.current_sign_in_on = datetime.now(tz=timezone.utc)
