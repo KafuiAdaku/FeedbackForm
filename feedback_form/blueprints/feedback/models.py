@@ -1,6 +1,6 @@
-
 from datetime import datetime
 from feedback_form.extensions import db
+from feedback_form.blueprints.user.models import User
 
 # User model
 # class User(db.Model):
@@ -46,8 +46,12 @@ class Review(db.Model):
     additional_comments = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    user = db.relationship('User', backref=db.backref('reviews', lazy='dynamic'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'))
+    user = db.relationship('User',
+                           backref=db.backref('reviews', lazy='dynamic',
+                                              cascade='all, delete-orphan'))
 
-    employee_id = db.Column(db.Integer, db.ForeignKey('employees.id'))
-    employee = db.relationship('Employee', backref=db.backref('reviews', lazy='dynamic'))
+    employee_id = db.Column(db.Integer, db.ForeignKey('employees.id', ondelete='CASCADE'))
+    employee = db.relationship('Employee',
+                               backref=db.backref('reviews', lazy='dynamic',
+                                                  cascade='all, delete-orphan'))
