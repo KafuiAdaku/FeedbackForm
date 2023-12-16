@@ -95,7 +95,7 @@ def users_bulk_delete():
 
     if form.validate_on_submit():
         ids = User.get_bulk_action_ids(request.form.get("scope"),
-                                       reqeust.form.getlist("bulk_ids"),
+                                       request.form.getlist("bulk_ids"),
                                        omit_ids=[current_user.id],
                                        query=request.form.get("q"))
         delete_account = User.bulk_delete(ids)
