@@ -88,6 +88,7 @@ body {
 #service
 {
     padding: 80px 0;
+    height: 70vh;
 }
 
 .service-img
@@ -230,4 +231,10 @@ body {
 
 .font-weight-600 {
     font-weight: 600;
+}
+
+
+#about-form {
+   background-image: linear-gradient(to right, #d9dcde, #f0f2f5);
+   height: 80vh; 
 }
