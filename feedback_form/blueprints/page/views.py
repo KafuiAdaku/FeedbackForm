@@ -23,6 +23,7 @@ def success_page():
     """
     return render_template('page/success.html')
 
+
 @page.route('/about')
 def about_us():
     return render_template('page/about.html')

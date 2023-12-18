@@ -36,7 +36,7 @@ class UserForm(ModelForm):
         Length(1, 16),
         Regexp(r"^\w+$", message=username_message)
         ])
-    
+
     role = SelectField("Privileges", [DataRequired()],
                        choices=choices_from_dict(User.ROLE,
                                                  prepend_blank=False))

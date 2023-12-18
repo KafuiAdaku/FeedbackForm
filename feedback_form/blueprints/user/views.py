@@ -27,7 +27,8 @@ from feedback_form.blueprints.user.forms import (
     WelcomeForm,
     UpdateCredentials)
 
-user = Blueprint("user", __name__, template_folder= "templates")
+user = Blueprint("user", __name__, template_folder="templates")
+
 
 @user.route("/login", methods=["GET", "POST"])
 @anonymous_required()
@@ -50,7 +51,7 @@ def login():
 
             else:
                 flash("This account has been disabled.", "error")
-        
+
         else:
             flash("Identity or password is incorrect.", "error")
 
@@ -70,8 +71,8 @@ def logout():
 def begin_password_reset():
     form = BeginPasswordResetForm()
 
-    if form.is_submitted() and form.validate():
     # if form.validate_on_submit():
+    if form.is_submitted() and form.validate():
         u = User.initialize_password_reset(request.form.get('identity'))
 
         flash('An email has been sent to {0}.'.format(u.email), 'success')
@@ -85,8 +86,8 @@ def begin_password_reset():
 def password_reset():
     form = PasswordResetForm(reset_token=request.args.get('reset_token'))
 
-    if form.is_submitted() and form.validate():
     # if form.validate_on_submit():
+    if form.is_submitted() and form.validate():
         u = User.deserialize_token(request.form.get('reset_token'))
 
         if u is None:
@@ -97,7 +98,6 @@ def password_reset():
         form.populate_obj(u)
         u.password = User.encrypt_password(request.form.get('password'))
         u.save()
-
 
         if login_user(u):
             flash('Your password has been reset.', 'success')
@@ -111,8 +111,8 @@ def password_reset():
 def signup():
     form = SignUpForm()
 
-    if form.is_submitted() and form.validate():
     # if form.validate_on_submit():
+    if form.is_submitted() and form.validate():
         u = User()
 
         form.populate_obj(u)
@@ -136,8 +136,8 @@ def welcome():
         return redirect(url_for('user.settings'))
 
     form = WelcomeForm()
-    if form.is_submitted() and form.validate():
     # if form.validate_on_submit():
+    if form.is_submitted() and form.validate():
         current_user.username = request.form.get('username')
         current_user.save()
 
@@ -158,8 +158,8 @@ def settings():
 def update_credentials():
     form = UpdateCredentials(current_user, uid=current_user.id)
 
-    if form.is_submitted() and form.validate():
     # if form.validate_on_submit():
+    if form.is_submitted() and form.validate():
         new_password = request.form.get('password', '')
         current_user.email = request.form.get('email')
 

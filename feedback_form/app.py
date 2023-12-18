@@ -14,6 +14,7 @@ CELERY_TASK_LIST = [
     'feedback_form.blueprints.user.tasks'
     ]
 
+
 def create_celery_app(app=None):
     """
     Create a new Celery object and tie together the Celery config to the app's
@@ -38,6 +39,7 @@ def create_celery_app(app=None):
 
     celery.Task = ContextTask
     return celery
+
 
 def create_app(settings_override=None):
     """
@@ -105,9 +107,8 @@ def authentication(app, user_model):
     login_manager.login_view = "user.login"
 
     @login_manager.user_loader
-    def load_user(uid) :
+    def load_user(uid):
         return user_model.query.get(uid)
-
 
     @login_manager.request_loader
     def load_from_request(request):

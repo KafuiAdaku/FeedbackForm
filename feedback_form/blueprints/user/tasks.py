@@ -1,10 +1,11 @@
-#!/usr/bin/python3                                                                                                                                                              
+#!/usr/bin/python3
 """Module defining tasks for password resets"""
 from lib.flask_mailplus import send_template_message
 from feedback_form.app import create_celery_app
 from feedback_form.blueprints.user.models import User
 
 celery = create_celery_app()
+
 
 @celery.task()
 def deliver_password_reset_email(user_id, reset_token):
