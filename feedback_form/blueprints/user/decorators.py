@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Custom decorators"""
 from functools import wraps
- 
+
 from flask import flash, redirect
 from flask_login import current_user
 

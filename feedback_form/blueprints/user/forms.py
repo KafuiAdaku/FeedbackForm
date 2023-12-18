@@ -1,8 +1,7 @@
 #!/usr/bin/python3
 """Module defining forms for user login"""
 from flask_wtf import FlaskForm
-from wtforms import (HiddenField, StringField, PasswordField, BooleanField,
-                     ValidationError)
+from wtforms import (HiddenField, StringField, PasswordField, BooleanField)
 from wtforms.validators import (DataRequired, Email, Length,
                                 Optional, Regexp)
 from wtforms_alchemy import Unique
@@ -13,15 +12,10 @@ from feedback_form.blueprints.user.validations import ensure_identity_exists, \
         ensure_existing_password_matches
 
 
-#def validate_unique_email(form, field):
-#    """Checks that email used during sign up isn't already in use"""
-#    if User.query.filter_by(email=field.data).first():
-#        raise ValidationError("Email already in use")
-
-
 class LoginForm(FlaskForm):
     next = HiddenField()
-    identity = StringField("Username or Email",[DataRequired(), Length(3, 256)])
+    identity = StringField("Username or Email",
+                           [DataRequired(), Length(3, 256)])
     password = PasswordField("Password", [DataRequired(), Length(8, 128)])
     remember = BooleanField("Stay signed in")
 
@@ -29,8 +23,8 @@ class LoginForm(FlaskForm):
 class BeginPasswordResetForm(FlaskForm):
     identity = StringField("Username or email",
                            [DataRequired(),
-                           Length(8, 256),
-                           ensure_identity_exists])
+                            Length(8, 256),
+                            ensure_identity_exists])
 
 
 class PasswordResetForm(FlaskForm):
@@ -48,20 +42,21 @@ class WelcomeForm(ModelForm):
     username_message = "Letters, numbers and underscores only please."
 
     username = StringField(validators=[
-                           Unique(User.username, get_session=lambda: db.session),
+                           Unique(User.username,
+                                  get_session=lambda: db.session),
                            DataRequired(),
                            Length(1, 16),
                            Regexp(r"^\w+$", message=username_message)
                            ])
 
+
 class UpdateCredentials(ModelForm):
     current_password = PasswordField("Current password",
                                      [DataRequired(),
                                       Length(8, 128),
-                                      ensure_existing_password_matches
-                                   ])
+                                      ensure_existing_password_matches])
     email = StringField(validators=[
                         Email(),
-                        Unique(User.email, get_session=lambda: db.session)
-                      ])
+                        Unique(User.email, get_session=lambda: db.session)]
+                        )
     password = PasswordField("Password", [Optional(), Length(8, 128)])

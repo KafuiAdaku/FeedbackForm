@@ -1,4 +1,4 @@
-#!/usr/bin/python3                                                                                                                                                              
+#!/usr/bin/python3
 """Module defining form user validation"""
 from wtforms.validators import ValidationError
 

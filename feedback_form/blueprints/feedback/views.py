@@ -9,20 +9,17 @@ from flask import (
 
 from flask_login import (
     current_user,
-    login_user,
-    logout_user,
     login_required)
 
 from feedback_form.blueprints.user.decorators import anonymous_required
-from lib.safe_next_url import safe_next_url
 from feedback_form.blueprints.user.models import User
 
 from feedback_form.blueprints.feedback.forms import FeedbackForm, ContactForm
-# from feedback_form.blueprints.feedback.email import send_feedback_email
 from feedback_form.extensions import mail, db
 from feedback_form.blueprints.feedback.models import Review, Employee
 
 feedback = Blueprint('feedback', __name__, template_folder='templates')
+
 
 @feedback.route('/feedback', methods=['GET', 'POST'])
 @login_required
@@ -30,7 +27,8 @@ def index():
     """
     Endpoint to handle feedback form submissions.
 
-    :return: Rendered template or redirect to success page upon successful submission.
+    :return: Rendered template or redirect to success page upon successful
+             submission.
     """
     form = FeedbackForm()
 
@@ -39,16 +37,14 @@ def index():
 
     employee_data = [(str(employee.id),
                       employee.employee_name) for employee in employees]
-    
+
     form.employee_feedback.choices = employee_data
 
     if form.validate_on_submit():
         """ to avoid circular imports """
-        # from feedback_form.tasks import send_async_email
 
-        username = current_user.username
         user_email = current_user.email
-        
+
         employee_id = form.employee_feedback.data
         service_feedback = form.service_feedback.data
         additional_comments = form.additional_comments.data
@@ -66,16 +62,13 @@ def index():
         db.session.add(review_entry)
         db.session.commit()
 
-        # send_async_email.delay(selected_employee.employee_name,
-        #                        service_feedback, additional_comments)
         from feedback_form.blueprints.feedback.tasks import \
-               deliver_feedback_email
+            deliver_feedback_email
         deliver_feedback_email(
                 user_email,
                 additional_comments,
                 selected_employee.id,
                 service_feedback)
-
 
         flash('Your feedback has been successfully submitted!', 'success')
         return redirect(url_for('page.success_page'))
@@ -88,22 +81,15 @@ def contact():
     """
     Endpoint to handle contact form submissions.
 
-    :return: Rendered template or redirect to success page upon successful submission.
+    :return: Rendered template or redirect to success page upon successful
+             submission.
     """
     form = ContactForm()
 
     if form.validate_on_submit():
         """send email on form submission"""
-        # from feedback_form.tasks import send_async_email_contact
-        
-        # send_async_email_contact.delay(
-        #     form.name.data,
-        #     form.email.data,
-        #     form.message.data
-        # )
-
         from feedback_form.blueprints.feedback.tasks import \
-                deliver_contact_email
+            deliver_contact_email
         deliver_contact_email(request.form.get("name"),
                               request.form.get("email"),
                               request.form.get("message")

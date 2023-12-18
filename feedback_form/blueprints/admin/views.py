@@ -23,6 +23,7 @@ from feedback_form.blueprints.admin.forms import (
 admin = Blueprint("admin", __name__, template_folder="templates",
                   url_prefix="/admin")
 
+
 @admin.before_request
 @login_required
 @role_required("admin")
@@ -30,12 +31,14 @@ def before_request():
     """Protects all admin endpoints"""
     pass
 
+
 # **********Dashboard***********
 @admin.route("")
 def dashboard():
     group_and_count_users = Dashboard.group_and_count_users()
 
-    return render_template("admin/page/dashboard.html", group_and_count_users=group_and_count_users)
+    return render_template("admin/page/dashboard.html",
+                           group_and_count_users=group_and_count_users)
 
 
 # **********Users***************
@@ -46,7 +49,7 @@ def users(page):
     bulk_form = BulkDeleteForm()
 
     sort_by = User.sort_by(request.args.get("sort", "created_on"),
-                        request.args.get("direction", "desc"))
+                           request.args.get("direction", "desc"))
     order_values = f"{sort_by[0]} {sort_by[1]}"
 
     search_expr = User.search(request.args.get('q', ''))
@@ -95,14 +98,15 @@ def users_bulk_delete():
 
     if form.validate_on_submit():
         ids = User.get_bulk_action_ids(request.form.get("scope"),
-                                       reqeust.form.getlist("bulk_ids"),
+                                       request.form.getlist("bulk_ids"),
                                        omit_ids=[current_user.id],
                                        query=request.form.get("q"))
         delete_account = User.bulk_delete(ids)
 
-        flash(f"{delete_account} user(s) were scheduled to be deleted.", "success")
+        flash(f"{delete_account} user(s) were scheduled to be deleted.",
+              "success")
 
     else:
         flash("No users were deleted,something went wrong", "error")
 
-    return  redirect(url_for("admin.users"))
+    return redirect(url_for("admin.users"))

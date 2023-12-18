@@ -20,7 +20,7 @@ def cli(skip_init, path):
     flake8_flag_exclude = ""
 
     if skip_init:
-        flake8_flag_excluce = " --exclude __init__.py"
+        flake8_flag_exclude = " --exclude __init__.py"
 
     cmd = f"flake8 {path} {flake8_flag_exclude}"
     return subprocess.call(cmd, shell=True)
