@@ -15,7 +15,6 @@ class Dashboard:
         """
         return Dashboard._group_and_count(User, User.role)
 
-
     @classmethod
     def _group_and_count(cls, model, field):
         """

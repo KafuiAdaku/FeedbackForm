@@ -7,7 +7,7 @@ from datetime import timedelta
 DEBUG = True
 
 # """Set to be able to run pytest natively in docker"""
-# SERVER_NAME = 'localhost:8000'
+SERVER_NAME = 'localhost:8000'
 
 SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
 SQLALCHEMY_TRACK_MODIFICATIONS = False

@@ -5,13 +5,12 @@ from datetime import datetime, timezone, timedelta
 from collections import OrderedDict
 from hashlib import md5
 
-import pytz
 from flask import current_app
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import or_
 
 from itsdangerous import URLSafeTimedSerializer
-from authlib.jose import jwt, JsonWebToken
+from authlib.jose import jwt
 from authlib.jose.errors import DecodeError
 
 from flask_login import UserMixin
@@ -33,12 +32,12 @@ class User(UserMixin, ResourceMixin, db.Model):
     # authentication
     role = db.Column(db.Enum(*ROLE, name="role_types", native_enum=False),
                      index=True, nullable=False, server_default="member")
-    active = db.Column("active", db.Boolean(), nullable=False, server_default="1")
+    active = db.Column("active", db.Boolean(), nullable=False,
+                       server_default="1")
     username = db.Column(db.String(32), unique=True, index=True)
     email = db.Column(db.String(128), unique=True, index=True, nullable=False,
                       server_default="")
     password = db.Column(db.String(128), nullable=False, server_default="")
-
 
     # activity tracking
     sign_in_count = db.Column(db.Integer, nullable=False, default=0)
@@ -52,9 +51,6 @@ class User(UserMixin, ResourceMixin, db.Model):
         super(User, self).__init__(**kwargs)
 
         self.password = User.encrypt_password(kwargs.get("password", ""))
-        # self.current_sign_in_on = datetime.now(tz=timezone.utc)
-        # self.last_sign_in_on = self.current_sign_in_on
-
 
     @classmethod
     def find_by_identity(cls, identity):
@@ -91,14 +87,12 @@ class User(UserMixin, ResourceMixin, db.Model):
         :return: User instance or None
         """
         private_key = current_app.config["SECRET_KEY"]
-        algorithm = "HS256"
 
         try:
             decode_payload = jwt.decode(token, private_key)
             return User.find_by_identity(decode_payload.get("user_email"))
         except DecodeError:
             return None
-
 
     @classmethod
     def initialize_password_reset(cls, identity):
@@ -118,7 +112,6 @@ class User(UserMixin, ResourceMixin, db.Model):
 
         return user
 
-
     @classmethod
     def search(cls, query):
         """
@@ -132,10 +125,10 @@ class User(UserMixin, ResourceMixin, db.Model):
             return None
 
         search_query = f"%{query}%"
-        search_chain = (User.email.ilike(search_query), User.username.ilike(search_query))
+        search_chain = (User.email.ilike(search_query),
+                        User.username.ilike(search_query))
 
         return or_(*search_chain)
-
 
     @classmethod
     def is_last_admin(cls, user, new_role, new_active):
@@ -160,7 +153,6 @@ class User(UserMixin, ResourceMixin, db.Model):
             if admin_count == 1 or active_count == 1:
                 return True
 
-
     def is_active(self):
         """
         Return whether or not the user account is active, this satisfies
@@ -169,7 +161,6 @@ class User(UserMixin, ResourceMixin, db.Model):
         :return: bool
         """
         return self.active
-
 
     def get_auth_token(self):
         """
@@ -184,24 +175,22 @@ class User(UserMixin, ResourceMixin, db.Model):
         private_key = current_app.config["SECRET_KEY"]
         serializer = URLSafeTimedSerializer(private_key)
         data = [str(self.id), md5(self.password.encode('utf-8')).hexdigest()]
-        
+
         return serializer.dumps(data)
 
-
     def authenticated(self, with_password=True, password=""):
-        """                                                                  
-        Ensure a user is authenticated, and optionally check their password.                                                                                                    
-                                                                             
-        :param with_password: Optionally check their password                
-        :type with_password: bool                                            
-        :param password: Optionally verify this as their password            
-        :type password: str                                                  
-        :return: bool                                                        
+        """
+        Ensure a user is authenticated, and optionally check their password.
+
+        :param with_password: Optionally check their password
+        :type with_password: bool
+        :param password: Optionally verify this as their password
+        :type password: str
+        :return: bool
         """
         if with_password:
             return check_password_hash(self.password, password)
         return True
-
 
     def serialize_token(self, expiration=3600):
         """
@@ -222,9 +211,8 @@ class User(UserMixin, ResourceMixin, db.Model):
                 "user_email": self.email
                 }
         token = jwt.encode(header, payload, private_key)
-        
-        return token
 
+        return token
 
     def update_activity_tracking(self, ip_address):
         """
@@ -236,9 +224,10 @@ class User(UserMixin, ResourceMixin, db.Model):
         :return: SQLAlchemy commit results
         """
         self.sign_in_count += 1
-        
+
         if self.current_sign_in_on is not None:
-            self.last_sign_in_on = self.current_sign_in_on.replace(tzinfo=timezone.utc)
+            self.last_sign_in_on = self.current_sign_in_on\
+                    .replace(tzinfo=timezone.utc)
         else:
             self.last_sign_in_on = None
 
