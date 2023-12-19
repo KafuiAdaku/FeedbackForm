@@ -32,7 +32,7 @@ def deliver_feedback_email(email, message, employee_id, service_rating):
     ctx = {
             "email": email,
             "message": message,
-            "select_employee": select_employee,
+            "select_employee": select_employee.name,
             "service_rating": service_rating
             }
 
