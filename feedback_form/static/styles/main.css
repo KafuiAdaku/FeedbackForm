@@ -252,3 +252,10 @@ body {
    background-image: linear-gradient(to right, #d9dcde, #f0f2f5);
    height: 80vh; 
 }
+
+#admin-edit {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 80vh;
+}
