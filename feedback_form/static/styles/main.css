@@ -83,6 +83,20 @@ body {
    background-color: #d9643a !important;
 }
 
+/* Admin Dashboard
+----------------------------------- */
+#bulk_actions {
+    display: None;
+    padding-bottom: 8px;
+}
+
+#scope {
+    margin-bottom: 0px;
+    padding: inherit;
+    width: 160px;
+    height: 29px;
+    font-weight: 400;
+    font-size: 12;
 
 /*------------------------------- service section ---------------------------*/
 #service
